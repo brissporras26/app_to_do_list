@@ -1,0 +1,65 @@
+<!-- app/templates/home.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mi Lista de Tareas</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+                    <li><a href="{{ url_for('admin') }}">Administración</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <h2>Mis Tareas</h2>
+            <form method="POST" action="{{ url_for('add_task') }}">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.task.label }}<br>
+                    {{ form.task(size=40) }}<br>
+                    {% for error in form.task.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.priority.label }}<br>
+                    {{ form.priority() }}<br>
+                    {% for error in form.priority.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.image.label }}<br>
+                    {{ form.image() }}<br>
+                    {% for error in form.image.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.submit() }}
+                </div>
+            </form>
+
+            <ul>
+                {% for task in tasks %}
+                    <li>
+                        {{ task.name }} - Prioridad: {{ task.priority }}
+                        <a href="{{ url_for('edit_task', task_id=task.id) }}">Editar</a>
+                        <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </main>
+    </div>
+</body>
+</html>
