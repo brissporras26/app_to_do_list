@@ -2,6 +2,7 @@ from flask import Blueprint, redirect, request, jsonify, url_for
 from database.database_manager import database_manager
 from bson import ObjectId
 import os
+#from app.logic.task_logic import delete_task
 
 task_bp = Blueprint('task', __name__)
 
@@ -46,15 +47,22 @@ def modify_task(task_id):
 
     return jsonify({'message': 'Task updated successfully'})
 
-@task_bp.route('/tasks/<task_id>', methods=['DELETE'])
-def remove_task(task_id):
-    if not ObjectId.is_valid(task_id):
-        return jsonify({'error': 'Invalid task ID'}), 400
+@task_bp.route('/tasks-delete', methods=['DELETE'])
+def delete_task(task_id):
+    print(f"Request method: {request.method}")  # Depuración
+    print(f"Task ID received: {task_id}")  # Depuración
 
-    collection_name = 'tasks'
-    result = database_manager.delete(collection_name=collection_name, task_id=ObjectId(task_id))
-    
-    if result == 0:
-        return jsonify({'error': 'Task not found'}), 404
+    tasks_collection = database_manager.get_db()['tasks']
+    try:
+        result = tasks_collection.delete_one({'_id': ObjectId(task_id)})
 
-    return '', 204
+        if result.deleted_count > 0:
+            print(f"Tarea con ID {task_id} eliminada correctamente.")
+            return redirect(url_for('home.home'))
+        else:
+            print(f"No se encontró una tarea con ID {task_id}.")
+            return redirect(url_for('home.home'))
+    except Exception as e:
+        print(f"Error al eliminar la tarea: {e}")
+        return redirect(url_for('home.home'))
+

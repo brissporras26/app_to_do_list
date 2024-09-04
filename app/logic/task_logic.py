@@ -1,6 +1,7 @@
 import uuid
 from database.database_manager import  database_manager
-
+from bson import ObjectId
+from flask import redirect, url_for
 def create_task(name, priority):
     """
     Crea una nueva tarea en la colección 'tasks'.
@@ -61,15 +62,16 @@ def update_task(task_id, new_name=None, new_priority=None):
         print(f"Error al actualizar la tarea: {e}")
         raise
 
-def delete_task(task_id):
-    """
-    Elimina una tarea de la colección 'tasks'.
-    :param task_id: ID de la tarea a eliminar.
-    :return: True si la eliminación fue exitosa, False en caso contrario.
-    """
+"""def delete_task(task_id):
+    tasks_collection = database_manager.get_db()['tasks']
     try:
-        result = database_manager.delete('tasks', {'task_id': task_id})
-        return result > 0
+        result = tasks_collection.delete_one({'_id': ObjectId(task_id)})
+
+        if result.deleted_count > 0:
+            print(f"Tarea con ID {task_id} eliminada correctamente.")
+        else:
+            print(f"No se encontró una tarea con ID {task_id}.")
     except Exception as e:
         print(f"Error al eliminar la tarea: {e}")
-        raise
+
+    return redirect(url_for('home.home'))"""
