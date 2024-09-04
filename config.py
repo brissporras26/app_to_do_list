@@ -1,8 +1,11 @@
 #configuracion  URL de la base de datos y la clave secreta
+import os
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
 
 class Config:
-    SECRET_KEY = 'mi_clave_secreta'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///mi_base_de_datos.db'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MONGO_URI = os.getenv('MONGO_URI')  # URI de MongoDB desde las variables de entorno
     UPLOAD_FOLDER = 'app/static/uploads'
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB
+    #MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB

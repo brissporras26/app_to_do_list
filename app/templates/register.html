@@ -1,36 +1,37 @@
-<!-- app/templates/register.html -->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Register - To-Do List</title>
+    <link rel="stylesheet" href="../static/register_styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Registrarse</h1>
-        <form method="POST" action="{{ url_for('register') }}">
-            {{ form.hidden_tag() }}
-            <div>
-                {{ form.username.label }}<br>
-                {{ form.username(size=32) }}<br>
-                {% for error in form.username.errors %}
-                    <span class="error">{{ error }}</span>
-                {% endfor %}
-            </div>
-            <div>
-                {{ form.password.label }}<br>
-                {{ form.password(size=32) }}<br>
-                {% for error in form.password.errors %}
-                    <span class="error">{{ error }}</span>
-                {% endfor %}
-            </div>
-            <div>
-                {{ form.submit() }}
-            </div>
-        </form>
-        <p>¿Ya tienes una cuenta? <a href="{{ url_for('login') }}">Inicia sesión aquí</a></p>
-    </div>
+    <header>
+        <h1>To-Do List</h1>
+        <nav>
+           
+        </nav>
+    </header>
+    <main>
+        <section class="register-form">
+            <h2>Create an Account</h2>
+            <form action="/register" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <button type="submit" class="submit-button">Done</button>
+            </form>
+            <p class="login-link">
+                Already have an account? <a href="/login" class="login-button">Login here</a>
+            </p>
+        </section>
+    </main>
 </body>
 </html>

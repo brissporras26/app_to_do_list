@@ -1,65 +1,60 @@
-<!-- app/templates/home.html -->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tareas</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="../static/home_styles.css">
+    <link rel="stylesheet" href="../static/task_form_styles.css"> <!-- Enlace al nuevo CSS -->
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Mi Lista de Tareas</h1>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('home') }}">Inicio</a></li>
-                    <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
-                    <li><a href="{{ url_for('admin') }}">Administración</a></li>
-                </ul>
-            </nav>
-        </header>
+    <header>
+        <h1>To-Do List</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home.home') }}">Home</a></li>
+                <li><a href="{{ url_for('auth.login_user') }}" class="login-button">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="task-list">
+            <!-- Enlace para mostrar el formulario -->
+            <label for="show-task-form" class="add-task-button">Add+</label>
+            <input type="checkbox" id="show-task-form" style="display: none;">
 
-        <main>
-            <h2>Mis Tareas</h2>
-            <form method="POST" action="{{ url_for('add_task') }}">
-                {{ form.hidden_tag() }}
-                <div>
-                    {{ form.task.label }}<br>
-                    {{ form.task(size=40) }}<br>
-                    {% for error in form.task.errors %}
-                        <span class="error">{{ error }}</span>
-                    {% endfor %}
-                </div>
-                <div>
-                    {{ form.priority.label }}<br>
-                    {{ form.priority() }}<br>
-                    {% for error in form.priority.errors %}
-                        <span class="error">{{ error }}</span>
-                    {% endfor %}
-                </div>
-                <div>
-                    {{ form.image.label }}<br>
-                    {{ form.image() }}<br>
-                    {% for error in form.image.errors %}
-                        <span class="error">{{ error }}</span>
-                    {% endfor %}
-                </div>
-                <div>
-                    {{ form.submit() }}
-                </div>
-            </form>
-
+            <!-- Formulario de tarea -->
+            <div class="task-form">
+                <form action="{{ url_for('task.add_task') }}" method="POST">
+                    <label for="task-name">Task Name:</label>
+                    <input type="text" id="task-name" name="task_name" required>
+                    
+                    <label for="task-priority">Priority:</label>
+                    <select id="task-priority" name="task_priority" required>
+                        <option value="high">High (Red)</option>
+                        <option value="medium">Medium (Yellow)</option>
+                        <option value="low">Low (Green)</option>
+                    </select>
+                    
+                    <button type="submit" class="submit-task-button">Add Task</button>
+                </form>
+            </div>
+            
+            <!-- Lista de tareas -->
+            <!-- Lista de tareas -->
             <ul>
                 {% for task in tasks %}
-                    <li>
-                        {{ task.name }} - Prioridad: {{ task.priority }}
-                        <a href="{{ url_for('edit_task', task_id=task.id) }}">Editar</a>
-                        <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
+                    <li class="task {{ task.priority }}-priority">
+                        <span>{{ task.name }}</span>
+                        <div class="task-actions">
+                            <button class="edit-task" data-task-id="{{ task.id }}">Edit</button>
+                            <button class="delete-task" data-task-id="{{ task.id }}">Delete</button>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
-        </main>
-    </div>
+
+        </section>
+    </main>
 </body>
 </html>
