@@ -38,30 +38,26 @@
                     
                     <button type="submit" class="submit-task-button">Add Task</button>
                 </form>
-
             </div>
             
-            <!-- Lista de tareas -->
             <!-- Lista de tareas -->
             <ul>
                 {% for task in tasks %}
                     <li class="task {{ task.priority }}-priority">
                         <span>{{ task.name }}</span>
                         <div class="task-actions">
+                            <!-- Botón de edición (por ahora solo visual) -->
                             <button class="edit-task" data-task-id="{{ task.id }}">Edit</button>
-                            <form action="{{ url_for('task.delete_task', task_id=task.id) }}" method="POST">
+                            
+                            <!-- Formulario para eliminar la tarea -->
+                            <form action="{{ url_for('task.delete_task', task_id=task._id) }}" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit">Eliminar</button>
+                                <button type="submit" class="delete-task-button">Eliminar</button>
                             </form>
-                            
-
-                            
-
                         </div>
                     </li>
                 {% endfor %}
             </ul>
-
         </section>
     </main>
 </body>

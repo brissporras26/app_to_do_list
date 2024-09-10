@@ -63,17 +63,17 @@ class DatabaseManager:
         result = collection.update_one(query, {'$set': update_data})
         return result.modified_count
 
-    def delete(self, db_name: str, collection_name: str, query: dict) -> int:
+    def delete(self, collection_name: str, query: dict) -> int:
         """
         Método para realizar una operación de eliminación en la base de datos.
-        :param db_name: Nombre de la base de datos
         :param collection_name: Nombre de la colección en la que se realizará la eliminación.
         :param query: Condiciones para la eliminación.
-        :return: Resultado de la operación de eliminación.
+        :return: Número de documentos eliminados.
         """
-        collection = self.get_db(db_name)[collection_name]
+        collection = self.get_db()[collection_name] 
         result = collection.delete_one(query)
         return result.deleted_count
+
 
 # Crear una instancia global de DatabaseManager
 database_manager = DatabaseManager()

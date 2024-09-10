@@ -1,9 +1,9 @@
 from flask import Blueprint
 
 #Definir los Blueprints
-admin = Blueprint('home', __name__)
-auth = Blueprint('auth', __name__)
-user = Blueprint('user', __name__)
-task = Blueprint('task', __name__)
+home_bp = Blueprint('home', __name__)
+auth_bp = Blueprint('auth', __name__)
+user_bp = Blueprint('user', __name__)
+task_bp = Blueprint('task', __name__)
 
 
