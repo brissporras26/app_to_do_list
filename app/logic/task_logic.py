@@ -2,25 +2,20 @@ import uuid
 from database.database_manager import  database_manager
 from bson import ObjectId
 from flask import redirect, url_for
-def create_task(name, priority):
-    """
-    Crea una nueva tarea en la colección 'tasks'.
-    :param name: Nombre de la tarea.
-    :param priority: Prioridad de la tarea (alta, media, baja).
-    :return: ID de la tarea creada.
-    """
-    try:
-        task_id = str(uuid.uuid4())  # Genera un ID único para la tarea
-        task_data = {
-            'task_id': task_id,
-            'name': name,
-            'priority': priority
-        }
-        inserted_id = database_manager.insert('tasks', task_data)
-        return inserted_id
-    except Exception as e:
-        print(f"Error al crear la tarea: {e}")
-        raise
+# task_logic.py
+
+def add_task_logic(task_name, task_priority, database_manager):
+    # Crear un diccionario con los datos de la tarea
+    task_data = {
+        'name': task_name,
+        'priority': task_priority
+    }
+
+    # Usar la instancia global de DatabaseManager para insertar la tarea
+    collection_name = 'tasks'
+    inserted_id = database_manager.insert(db_name=None, collection_name=collection_name, data=task_data)
+
+    return inserted_id
 
 def get_task_by_name(name):
     """

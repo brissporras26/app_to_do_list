@@ -3,6 +3,7 @@ from database.database_manager import database_manager
 from bson import ObjectId
 import os
 from bson import ObjectId
+from app.logic.task_logic import add_task_logic
 
 
 
@@ -23,15 +24,8 @@ def add_task():
     task_name = request.form.get('task_name')
     task_priority = request.form.get('task_priority')
 
-    # Crear un diccionario con los datos de la tarea
-    task_data = {
-        'name': task_name,
-        'priority': task_priority
-    }
-
-    # Usar la instancia global de DatabaseManager para insertar la tarea
-    collection_name = 'tasks'
-    inserted_id = database_manager.insert(db_name=None,collection_name=collection_name, data=task_data)
+    # Llamar a la lógica para agregar la tarea
+    add_task_logic(task_name, task_priority, database_manager)
 
     return redirect(url_for('home.home'))  # Redirige de vuelta a la página de inicio
 
