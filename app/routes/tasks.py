@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, request, jsonify, url_for
+from flask import Blueprint, redirect, request, jsonify, url_for, render_template
 from database.database_manager import database_manager
 from bson import ObjectId
 import os
@@ -29,38 +29,16 @@ def add_task():
 
     return redirect(url_for('home.home'))  # Redirige de vuelta a la página de inicio
 
-@task_bp.route('/tasks-edit/<task_id>', methods=['POST'])
-def modify_task(task_id):
-    if request.form.get('_method') == 'PUT':
-        task_name = request.form.get('task_name')
-        task_priority = request.form.get('task_priority')
-
-        if not ObjectId.is_valid(task_id):
-            return jsonify({'error': 'Invalid task ID'}), 400
-
-        # Definir los datos actualizados
-        updated_data = {
-            'name': task_name,
-            'priority': task_priority
-        }
-
-        try:
-            # Llamar al método de actualización del DatabaseManager
-            result = database_manager.update('tasks', task_id=ObjectId(task_id), data=updated_data)
-
-            if result == 0:
-                return jsonify({'error': 'Task not found'}), 404
-
-            print(f"Tarea con ID {task_id} actualizada correctamente.")
-            return redirect(url_for('home.home'))
-
-        except Exception as e:
-            print(f"Error al actualizar la tarea: {e}")
-            return redirect(url_for('home.home'))
-    else:
-        return redirect(url_for('home.home'))
-
-
+@task_bp.route('/edit/<task_id>', methods=['GET', 'POST'])
+def edit_task(task_id):
+    if request.method == 'POST':
+        # Código para actualizar la tarea
+        # ...
+        return redirect(url_for('home.home'))  # Redirige a la página principal después de editar
+    
+    # Código para mostrar el formulario de edición
+    task = database_manager.get_db()['tasks'].find_one({'_id': ObjectId(task_id)})
+    return render_template('edit_task.html', task=task)
 
 @task_bp.route('/tasks-delete/<task_id>', methods=['POST'])
 def delete_task(task_id):
