@@ -4,6 +4,7 @@ from bson import ObjectId
 import os
 from bson import ObjectId
 from app.logic.task_logic import add_task_logic
+from app.logic.task_logic import update_task
 
 
 
@@ -29,16 +30,19 @@ def add_task():
 
     return redirect(url_for('home.home'))  # Redirige de vuelta a la página de inicio
 
-@task_bp.route('/edit/<task_id>', methods=['GET', 'POST'])
+from flask import request, redirect, url_for
+
+@task_bp.route('/edit-task/<task_id>', methods=['POST'])
 def edit_task(task_id):
-    if request.method == 'POST':
-        # Código para actualizar la tarea
-        # ...
-        return redirect(url_for('home.home'))  # Redirige a la página principal después de editar
-    
-    # Código para mostrar el formulario de edición
-    task = database_manager.get_db()['tasks'].find_one({'_id': ObjectId(task_id)})
-    return render_template('edit_task.html', task=task)
+  new_name = request.form.get('new_name')
+  new_priority = request.form.get('new_priority')
+  
+  print("[NAVA] task_id " + task_id)
+  print("[NAVA] new_name " + new_name)
+  print("[NAVA] new_priority " + new_priority)
+  
+  update_task(task_id, new_name, new_priority)
+  return redirect(url_for('home.home'))
 
 @task_bp.route('/tasks-delete/<task_id>', methods=['POST'])
 def delete_task(task_id):

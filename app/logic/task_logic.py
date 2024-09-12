@@ -51,7 +51,7 @@ def update_task(task_id, new_name=None, new_priority=None):
         if not update_data:
             return False  # No hay nada que actualizar
 
-        update_result = database_manager.update('tasks', {'task_id': task_id}, update_data)
+        update_result = database_manager.update(db_name=None, collection_name='tasks', query={'_id': ObjectId(task_id)}, update_data=update_data)
         return update_result > 0
     except Exception as e:
         print(f"Error al actualizar la tarea: {e}")
