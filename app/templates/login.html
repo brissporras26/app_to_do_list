@@ -10,7 +10,9 @@
     <header>
         <h1>To-Do List</h1>
         <nav>
-            
+            <ul>
+                <li><a ></a></li>
+            </ul>
         </nav>
     </header>
     <main>
@@ -26,7 +28,7 @@
                 <button type="submit" class="submit-button">Login</button>
             </form>
             <p class="register-link">
-                Don't have an account? <a href="/register" class="register-button">Register here</a>
+                Don't have an account? <a href="{{ url_for('user.add_user') }}" class="register-button">Register here</a>
             </p>
         </section>
     </main>

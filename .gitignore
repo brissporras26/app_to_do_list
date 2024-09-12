@@ -1,2 +1,9 @@
+# Entorno virtual
+venv/
+env/
+
+# Archivos de configuración del entorno
 .env
-/venv
+
+# Compilaciones de Python
+__pycache__/
