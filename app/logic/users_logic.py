@@ -14,3 +14,5 @@ def add_user_logic(email_user, password_user):
     # Imprimir para verificar la inserción
     print(f"Inserted user: {inserted_user}")
     return inserted_user
+
+
