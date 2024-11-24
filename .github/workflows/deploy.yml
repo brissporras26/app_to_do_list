@@ -41,5 +41,4 @@ jobs:
 
           export $(cat .env | xargs)
 
-          nohup python run.py > app.log 2>&1 &
-EOF
+          nohup python run.py > app.log 2>&1 & EOF
