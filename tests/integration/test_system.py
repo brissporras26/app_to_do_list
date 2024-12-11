@@ -23,6 +23,7 @@ def authenticated_client(client, test_user):
         sess['authenticated'] = True
     return client
 
+# Test Database Connection
 @pytest.fixture(scope="function")
 def mock_db():
     """Mock database for testing"""
